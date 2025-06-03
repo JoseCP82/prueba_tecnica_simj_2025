@@ -4,8 +4,6 @@
 
 @section('content')
   <div class="container-fluid">
-    <h1 class="mb-4">Bienvenido, {{ Auth::user()->name }}</h1>
-
     <div class="row">
       <div class="col-lg-3 col-6">
         <div class="small-box bg-info">

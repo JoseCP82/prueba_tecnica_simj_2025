@@ -18,7 +18,7 @@
         <li class="nav-item">
           <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
             <i class="nav-icon fas fa-home"></i>
-            <p>Dashboard</p>
+            <p>Inicio</p>
           </a>
         </li>
         <li class="nav-item">
