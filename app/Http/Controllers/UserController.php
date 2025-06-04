@@ -39,6 +39,10 @@ class UserController extends Controller
         }
     }
 
+    public function indexBlade() {
+        return view('users.index');
+    }
+
     /**
      * Store a newly created user.
      * POST /users

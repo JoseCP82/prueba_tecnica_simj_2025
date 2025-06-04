@@ -41,26 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    /*
-    |--------------------------------------------------------------------------
-    | CRUD de usuarios (AdminLTE)
-    |--------------------------------------------------------------------------
-    | - /users → Vista blade (menú)
-    | - /api/users → Endpoints AJAX
-    */
-    
+ 
     // Vista principal del CRUD (blade con tabla)
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-
-    // API endpoints para AJAX
-    Route::prefix('api/users')->name('api.users.')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('index');         // GET: listar todos los usuarios
-        Route::post('/', [UserController::class, 'store'])->name('store');      // POST: crear nuevo usuario
-        Route::get('/{user}', [UserController::class, 'show'])->name('show');   // GET: ver detalle
-        Route::put('/{user}', [UserController::class, 'update'])->name('update'); // PUT: actualizar usuario
-        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy'); // DELETE: eliminar usuario
-    });
-
+    Route::get('/users', [UserController::class, 'indexBlade'])->name('users.indexBlade');
 });
 
 require __DIR__.'/auth.php';
