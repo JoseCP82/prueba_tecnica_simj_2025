@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
     // API endpoints para AJAX
-    Route::prefix('api/users')->name('users.')->group(function () {
+    Route::prefix('api/users')->name('api.users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');         // GET: listar todos los usuarios
         Route::post('/', [UserController::class, 'store'])->name('store');      // POST: crear nuevo usuario
         Route::get('/{user}', [UserController::class, 'show'])->name('show');   // GET: ver detalle
