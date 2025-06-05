@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProyectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +31,7 @@ Route::get('/dashboard', function () {
 | Rutas protegidas por autenticación
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'web'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
@@ -42,9 +43,14 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
  
-    // Vista principal del CRUD (blade con tabla)
-    Route::get('/users', [UserController::class, 'indexBlade'])->name('users.indexBlade');
+    // Vista principal del CRUD Users(blade con tabla)    
+    Route::get('/users', function(){
+        return view('users.index');
+    })->name('users.indexBlade');
 
+    Route::get('/proyects', function() {
+        return view('calendar.index');    
+    })->name('proyects.indexBlade');
     
     // API endpoints para AJAX
     Route::prefix('users')->name('users.')->group(function () {

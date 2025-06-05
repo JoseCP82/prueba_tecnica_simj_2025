@@ -64,6 +64,11 @@
                                 <input type="password" id="password" name="password" class="form-control">
                                 <small class="form-text text-muted">Opcional al editar</small>
                             </div>
+                            <div class="form-group">
+                                <label for="password_confirmation">Confirmar Contraseña</label>
+                                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control">
+                            </div>
+
                             <div class="form-group form-check">
                                 <input type="checkbox" id="is_admin" name="is_admin" class="form-check-input">
                                 <label class="form-check-label" for="is_admin">Administrador</label>

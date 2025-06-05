@@ -21,13 +21,6 @@ class UserController extends Controller
         ) {}
     
     /**
-     * Return user´s view
-     */
-    public function indexBlade() {
-        return view('users.index');
-    }
-
-    /**
      * Display a listing of users.
      * GET /users
      *
@@ -57,12 +50,12 @@ class UserController extends Controller
     {
         try {
             $payload = array_merge($request->validated(), [
-                'is_admin' => $request->has('is_admin'),
+                'is_admin' => $request->boolean('is_admin'),
             ]);
 
             $user = $this->userService->createUser($payload);
 
-            return $this->apiResponse->success($user, 'User created successfully', 201);
+            return $this->apiResponse->success($user, 'User created successfully', 200);
         } catch (\Throwable $e) {
             Log::error('Error creating user: ' . $e->getMessage(), [
                 'input' => $request->all(),
@@ -104,7 +97,7 @@ class UserController extends Controller
     {
         try {
             $payload = array_merge($request->validated(), [
-                'is_admin' => $request->has('is_admin'),
+                'is_admin' => $request->boolean('is_admin'),
             ]);
 
             $updatedUser = $this->userService->updateUser($user, $payload);
@@ -131,7 +124,7 @@ class UserController extends Controller
     {
         try {
             $this->userService->deleteUser($user);
-            return $this->apiResponse->success(null, 'User deleted successfully', 204);
+            return $this->apiResponse->success(null, 'User deleted successfully', 200);
         } catch (\Throwable $e) {
             Log::error('Error deleting user: ' . $e->getMessage(), [
                 'user_id' => $user->id,

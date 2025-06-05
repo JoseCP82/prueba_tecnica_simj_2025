@@ -13,6 +13,15 @@ export default class UserService {
         });
     }
 
+    // Get all users
+    getUser(userId) {
+        return $.ajax({
+            url: `${this.baseUrl}/${userId}`,
+            method: "GET",
+            dataType: "json",            
+        });
+    }
+
     // Create a new user
     createUser(userData) {
         return $.ajax({
