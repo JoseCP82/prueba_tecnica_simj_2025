@@ -18,7 +18,14 @@ class UserController extends Controller
     public function __construct(
         private readonly UserService $userService, 
         private readonly JsonResponseInterface $apiResponse
-    ) {}
+        ) {}
+    
+    /**
+     * Return user´s view
+     */
+    public function indexBlade() {
+        return view('users.index');
+    }
 
     /**
      * Display a listing of users.
@@ -37,10 +44,6 @@ class UserController extends Controller
             ]);
             return $this->apiResponse->error('Failed to retrieve users', 500);
         }
-    }
-
-    public function indexBlade() {
-        return view('users.index');
     }
 
     /**

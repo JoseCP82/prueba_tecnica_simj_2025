@@ -30,7 +30,7 @@ Route::get('/dashboard', function () {
 | Rutas protegidas por autenticación
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'web'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
@@ -44,6 +44,16 @@ Route::middleware('auth')->group(function () {
  
     // Vista principal del CRUD (blade con tabla)
     Route::get('/users', [UserController::class, 'indexBlade'])->name('users.indexBlade');
+
+    
+    // API endpoints para AJAX
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/list', [UserController::class, 'index'])->name('index');         // GET: listar todos los usuarios
+        Route::post('/', [UserController::class, 'store'])->name('store');      // POST: crear nuevo usuario
+        Route::get('/{user}', [UserController::class, 'show'])->name('show');   // GET: ver detalle
+        Route::put('/{user}', [UserController::class, 'update'])->name('update'); // PUT: actualizar usuario
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy'); // DELETE: eliminar usuario
+    });
 });
 
 require __DIR__.'/auth.php';

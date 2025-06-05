@@ -4,6 +4,19 @@ import UserService from "../services/userService.js";
 const userService = new UserService();
 
 $(document).ready(function () {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+
+    $("#btn-add-user").on("click", () => {
+        $("#user-id").val("");
+        $("#user-form")[0].reset();
+        $("#userModalLabel").text("Nuevo Usuario");
+        $("#user-modal").modal("show");
+    });
+
     // Cargar usuarios al abrir la página
     userService.getUsers().then((users) => {
         $("#users-table").DataTable({
@@ -35,24 +48,30 @@ $(document).ready(function () {
         });
     });
 
-    // Ejemplo: manejar creación de usuario con formulario
-    $("#formCreateUser").submit(function (e) {
+    // Guardar usuario
+    $("#user-form").on("submit", function (e) {
         e.preventDefault();
 
-        const userData = {
+        const id = $("#user-id").val();
+        const formData = {
             name: $("#name").val(),
             email: $("#email").val(),
-            // otros campos...
+            password: $("#password").val(),
+            is_admin: $("#is_admin").is(":checked") ? 1 : 0,
         };
 
-        userService
-            .createUser(userData)
-            .done((response) => {
-                alert("Usuario creado");
-                // recargar lista o actualizar tabla
+        const request = id
+        ? userService.updateUser(id, formData)
+        : userService.createUser(formData);
+        
+        request
+            .then(() => {
+                $("#user-modal").modal("hide");
+                $("#users-table").DataTable().ajax.reload(null, false); // recarga sin reiniciar la paginación
             })
-            .fail((err) => {
-                alert("Error al crear usuario");
+            .catch((error) => {
+                alert("Error al guardar el usuario");
+                console.error(error);
             });
     });
 });

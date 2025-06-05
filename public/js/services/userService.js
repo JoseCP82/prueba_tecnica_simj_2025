@@ -1,31 +1,28 @@
 // services/userService.js
 export default class UserService {
     constructor() {
-        this.baseUrl = "/api/users";
+        this.baseUrl = "/users";        
     }
 
     // Get all users
     getUsers() {
         return $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: this.baseUrl,
+            url: `${this.baseUrl}/list`,
             method: "GET",
-            dataType: "json",
-            xhrFields: {
-                withCredentials: true,
-            },
+            dataType: "json",            
         });
     }
 
     // Create a new user
     createUser(userData) {
         return $.ajax({
-            url: this.baseUrl,
-            method: "POST",
+            url: `${this.baseUrl}`,
+            method: 'POST',
             data: userData,
-            dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            dataType: 'json'
         });
     }
 
@@ -35,6 +32,9 @@ export default class UserService {
             url: `${this.baseUrl}/${userId}`,
             method: "PUT",
             data: userData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
             dataType: "json",
         });
     }
@@ -44,6 +44,9 @@ export default class UserService {
         return $.ajax({
             url: `${this.baseUrl}/${userId}`,
             method: "DELETE",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
             dataType: "json",
         });
     }
