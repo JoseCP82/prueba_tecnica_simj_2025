@@ -118,33 +118,44 @@ $(document).ready(function () {
     // Delegamos el evento porque los botones se cargan dinámicamente
     $("#users-table").on("click", ".delete-user", function () {
         const userId = $(this).data("id");
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¿Deseas eliminar este usuario?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                userService
+                    .deleteUser(userId)
+                    .then(() => {
+                        const table = $("#users-table").DataTable();
 
-        if (confirm("¿Estás seguro de que deseas eliminar este usuario?")) {
-            userService
-                .deleteUser(userId)
-                .then(() => {
-                    const table = $("#users-table").DataTable();
+                        mostrarSwal(true, "Usuario eliminado correctamente");
 
-                    mostrarSwal(true, "Usuario eliminado correctamente");
+                        // Buscar la fila por ID
+                        const rowIndex = table
+                            .rows()
+                            .indexes()
+                            .toArray()
+                            .find(
+                                (i) =>
+                                    table.row(i).data().id === parseInt(userId)
+                            );
 
-                    // Buscar la fila por ID
-                    const rowIndex = table
-                        .rows()
-                        .indexes()
-                        .toArray()
-                        .find(
-                            (i) => table.row(i).data().id === parseInt(userId)
-                        );
-
-                    if (rowIndex !== undefined) {
-                        table.row(rowIndex).remove().draw(false);
-                    }
-                })
-                .catch((error) => {
-                    mostrarSwal(false, "Error al eliminar el usuario");
-                    console.error(error);
-                });
-        }
+                        if (rowIndex !== undefined) {
+                            table.row(rowIndex).remove().draw(false);
+                        }
+                    })
+                    .catch((error) => {
+                        mostrarSwal(false, "Error al eliminar el usuario");
+                        console.error(error);
+                    });
+            }
+        });
     });
 
     // Muestra un alert indicando exito o no al realizar una acción
